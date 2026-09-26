@@ -1,0 +1,6 @@
+@EnterpriseIdentity_Auth_HostAddress = http://localhost:5203
+
+GET {{EnterpriseIdentity_Auth_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
