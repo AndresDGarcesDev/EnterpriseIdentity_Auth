@@ -22,5 +22,17 @@ namespace EnterpriseIdentity_Auth.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDTO dto)
+        {
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+
+            var result = await _authService.Login(dto, ipAddress, userAgent);
+
+            return Ok(result);
+        }
     }
 }

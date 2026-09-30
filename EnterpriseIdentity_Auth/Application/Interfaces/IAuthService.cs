@@ -5,5 +5,6 @@ namespace EnterpriseIdentity_Auth.Application.Interfaces
     public interface IAuthService
     {
         Task<string> Register(RegisterDTO dto);
+        Task<AuthResponseDTO> Login(LoginDTO dto, string? ipAddress, string? userAgent);
     }
 }

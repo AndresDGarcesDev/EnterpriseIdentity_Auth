@@ -3,6 +3,8 @@ using EnterpriseIdentity_Auth.Application.Interfaces;
 using EnterpriseIdentity_Auth.Domain.Entities;
 using EnterpriseIdentity_Auth.Infraestructure.Data;
 using EnterpriseIdentity_Auth.Infraestructure.Security;
+using Microsoft.EntityFrameworkCore;
+using UAParser;
 
 namespace EnterpriseIdentity_Auth.Application.Services
 {
@@ -41,6 +43,60 @@ namespace EnterpriseIdentity_Auth.Application.Services
             await _dbContext.SaveChangesAsync();
 
             return "User registered successfully";
+        }
+
+        public async Task<AuthResponseDTO> Login(LoginDTO dto, string? ipAddress, string? userAgent)
+        {
+            var user = await _dbContext.Users
+                            .Include(u => u.Roles)
+                            .FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+            if (user == null)
+                throw new Exception("Usuario no encontrado");
+
+            if (!user.IsActive)
+                throw new Exception("Cuenta no activada");
+
+            if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+                throw new Exception("Credenciales inválidas");
+
+            var parser = Parser.GetDefault();
+
+            ClientInfo clientInfo = parser.Parse(userAgent);
+
+            var browser = clientInfo.UA.Family;
+            var os = clientInfo.OS.Family;
+            var device = clientInfo.Device.Family;
+            var sessionId = Guid.NewGuid().ToString();
+
+            var accessToken = _jwtHelper.GenerateToken(user, sessionId);
+            var refreshToken = _jwtHelper.GenerateRefreshToken();
+
+            var refreshTokenEntity = new RefreshToken
+            {
+                UserId = user.Id,
+                Token = refreshToken,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Created = DateTime.UtcNow,
+                CreatedByIp = ipAddress,
+                SessionId = Guid.NewGuid(),
+                Browser = browser,
+                OperatingSystem = os,
+                DeviceType = device,
+                UserAgent = userAgent,
+                LastActivity = DateTime.UtcNow,
+            };
+
+            _dbContext.RefreshTokens.Add(refreshTokenEntity);
+            await _dbContext.SaveChangesAsync();
+
+            return new AuthResponseDTO
+            {
+                Token = accessToken,
+                RefreshToken = refreshToken,
+                Email = user.Email,
+                Role = user.Roles.Name,
+            };
         }
     }
 }
