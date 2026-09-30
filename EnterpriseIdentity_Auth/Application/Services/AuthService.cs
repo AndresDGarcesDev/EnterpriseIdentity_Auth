@@ -98,5 +98,23 @@ namespace EnterpriseIdentity_Auth.Application.Services
                 Role = user.Roles.Name,
             };
         }
+
+        public async Task Logout(Guid sessionId, string? ipAddress)
+        {
+            var session = await _dbContext.RefreshTokens
+                .FirstOrDefaultAsync(x =>
+                    x.SessionId == sessionId &&
+                    x.Revoked == null &&
+                    x.Expires > DateTime.UtcNow
+                );
+
+            if (session == null)
+                return;
+
+            session.Revoked = DateTime.UtcNow;
+            session.RevokedByIp = ipAddress;
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

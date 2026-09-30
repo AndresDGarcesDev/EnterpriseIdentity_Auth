@@ -54,6 +54,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Cookies
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.Strict;
+});
+
 // Connection DB Scaffolding
 builder.Services.AddDbContext<PortfAdgarcaAuthEnterpriseContext>(options =>
 {
