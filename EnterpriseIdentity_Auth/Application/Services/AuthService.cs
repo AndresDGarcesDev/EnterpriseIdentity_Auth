@@ -116,5 +116,43 @@ namespace EnterpriseIdentity_Auth.Application.Services
 
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<AuthResponseDTO> RefreshToken(string token, string ipAddress)
+        {
+            var refreshToken = _dbContext.RefreshTokens
+                .FirstOrDefault(x => x.Token == token);
+
+            if (refreshToken == null || !refreshToken.IsActive)
+                throw new Exception("Invalid token");
+
+            var user = _dbContext.Users.Find(refreshToken.UserId);
+            var sessionId = Guid.NewGuid().ToString();
+
+            var newAccessToken = _jwtHelper.GenerateToken(user, sessionId);
+            var newRefreshToken = _jwtHelper.GenerateRefreshToken();
+
+            refreshToken.Revoked = DateTime.UtcNow;
+            refreshToken.RevokedByIp = ipAddress;
+            refreshToken.ReplacedByToken = newRefreshToken;
+
+            var newRefreshTokenEntity = new RefreshToken
+            {
+                UserId = user.Id,
+                Token = newRefreshToken,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Created = DateTime.UtcNow,
+                CreatedByIp = ipAddress
+            };
+
+            _dbContext.RefreshTokens.Add(newRefreshTokenEntity);
+
+            await _dbContext.SaveChangesAsync();
+
+            return new AuthResponseDTO
+            {
+                Token = newAccessToken,
+                RefreshToken = newRefreshToken
+            };
+        }
     }
 }

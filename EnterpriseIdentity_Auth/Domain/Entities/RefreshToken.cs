@@ -33,4 +33,9 @@ public partial class RefreshToken
     public Guid? SessionId { get; set; }
 
     public virtual User User { get; set; } = null!;
+
+    public bool IsExpired => DateTime.UtcNow >= Expires;
+
+    public bool IsActive => Revoked == null && !IsExpired;
+
 }

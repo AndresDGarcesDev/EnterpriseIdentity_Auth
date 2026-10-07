@@ -56,5 +56,15 @@ namespace EnterpriseIdentity_Auth.API.Controllers
                 message = "Logout successful"
             });
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh(RefreshTokenDTO dto)
+        {
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            var result = await _authService.RefreshToken(dto.RefreshToken, ipAddress);
+
+            return Ok(result);
+        }
     }
 }

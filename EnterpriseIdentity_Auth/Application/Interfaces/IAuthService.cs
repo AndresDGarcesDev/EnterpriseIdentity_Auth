@@ -7,5 +7,6 @@ namespace EnterpriseIdentity_Auth.Application.Interfaces
         Task<string> Register(RegisterDTO dto);
         Task<AuthResponseDTO> Login(LoginDTO dto, string? ipAddress, string? userAgent);
         Task Logout(Guid sessionId, string? ipAddress);
+        Task<AuthResponseDTO> RefreshToken(string token, string ipAdress);
     }
 }

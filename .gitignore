@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /EnterpriseIdentity_Auth/appsettings.json
+/EnterpriseIdentity_Auth/appsettings.Development.json
