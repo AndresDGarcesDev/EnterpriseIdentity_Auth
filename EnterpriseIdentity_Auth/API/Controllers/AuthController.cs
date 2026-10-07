@@ -66,5 +66,15 @@ namespace EnterpriseIdentity_Auth.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("revoke")]
+        public async Task<IActionResult> Revoke(RefreshTokenDTO dto)
+        {
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            await _authService.RevokeToken(dto.RefreshToken, ipAddress);
+
+            return Ok();
+        }
     }
 }

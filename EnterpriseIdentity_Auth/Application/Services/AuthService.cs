@@ -154,5 +154,22 @@ namespace EnterpriseIdentity_Auth.Application.Services
                 RefreshToken = newRefreshToken
             };
         }
+
+        public async Task RevokeToken(string token, string? ipAddress)
+        {
+            var refreshToken = await _dbContext.RefreshTokens
+                .FirstOrDefaultAsync(x => x.Token == token);
+
+            if (refreshToken == null)
+                throw new Exception("Token not found");
+
+            if (!refreshToken.IsActive)
+                throw new Exception("Token inactive");
+
+            refreshToken.Revoked = DateTime.UtcNow;
+            refreshToken.RevokedByIp = ipAddress;
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
