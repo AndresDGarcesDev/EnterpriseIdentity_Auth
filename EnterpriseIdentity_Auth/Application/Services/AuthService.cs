@@ -1,10 +1,12 @@
-﻿using EnterpriseIdentity_Auth.Application.DTOs.Auth;
+﻿using EnterpriseIdentity_Auth.Application.DTOs.Account;
+using EnterpriseIdentity_Auth.Application.DTOs.Auth;
 using EnterpriseIdentity_Auth.Application.Interfaces;
 using EnterpriseIdentity_Auth.Domain.Entities;
 using EnterpriseIdentity_Auth.Infraestructure.Data;
 using EnterpriseIdentity_Auth.Infraestructure.Security;
 using Microsoft.EntityFrameworkCore;
 using UAParser;
+using Volo.Abp;
 
 namespace EnterpriseIdentity_Auth.Application.Services
 {
@@ -170,6 +172,28 @@ namespace EnterpriseIdentity_Auth.Application.Services
             refreshToken.RevokedByIp = ipAddress;
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<string> ActivateAccount(ActivateAccountDTO dto)
+        {
+            var user = _dbContext.Users.FirstOrDefault(u => u.Email == dto.Email);
+
+            if (user == null)
+                throw new Exception("Usuario no encontrado");
+
+            if (user.IsActive)
+            {
+                throw new BusinessException("La cuenta ya esta activa",
+                                            "ACCOUNT_ALREADY_ACTIVE");
+            }
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+            user.IsActive = true;
+            user.HasPassword = true;
+
+            await _dbContext.SaveChangesAsync();
+
+            return "Cuenta activada correctamente";
         }
     }
 }

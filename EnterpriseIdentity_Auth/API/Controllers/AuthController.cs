@@ -1,4 +1,5 @@
-﻿using EnterpriseIdentity_Auth.Application.DTOs.Auth;
+﻿using EnterpriseIdentity_Auth.Application.DTOs.Account;
+using EnterpriseIdentity_Auth.Application.DTOs.Auth;
 using EnterpriseIdentity_Auth.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,14 @@ namespace EnterpriseIdentity_Auth.API.Controllers
             await _authService.RevokeToken(dto.RefreshToken, ipAddress);
 
             return Ok();
+        }
+
+        [HttpPost("activate")]
+        public async Task<IActionResult> Activate(ActivateAccountDTO dto)
+        {
+            var result = await _authService.ActivateAccount(dto);
+
+            return Ok(result);
         }
     }
 }

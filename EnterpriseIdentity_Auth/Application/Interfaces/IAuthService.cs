@@ -1,4 +1,5 @@
-﻿using EnterpriseIdentity_Auth.Application.DTOs.Auth;
+﻿using EnterpriseIdentity_Auth.Application.DTOs.Account;
+using EnterpriseIdentity_Auth.Application.DTOs.Auth;
 
 namespace EnterpriseIdentity_Auth.Application.Interfaces
 {
@@ -9,5 +10,6 @@ namespace EnterpriseIdentity_Auth.Application.Interfaces
         Task Logout(Guid sessionId, string? ipAddress);
         Task<AuthResponseDTO> RefreshToken(string token, string ipAdress);
         Task RevokeToken(string token, string ipAddress);
+        Task<string> ActivateAccount(ActivateAccountDTO dto);
     }
 }
