@@ -11,5 +11,6 @@ namespace EnterpriseIdentity_Auth.Application.Interfaces
         Task<AuthResponseDTO> RefreshToken(string token, string ipAdress);
         Task RevokeToken(string token, string ipAddress);
         Task<string> ActivateAccount(ActivateAccountDTO dto);
+        Task<UserResponseDTO> GetUserDataById(int id);
     }
 }

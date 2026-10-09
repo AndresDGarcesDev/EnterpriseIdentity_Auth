@@ -195,5 +195,22 @@ namespace EnterpriseIdentity_Auth.Application.Services
 
             return "Cuenta activada correctamente";
         }
+
+        public async Task<UserResponseDTO?> GetUserDataById(int id)
+        {
+            var user = await _dbContext.Users.Where(x => x.Id == id)
+                .Select(x => new UserResponseDTO
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    Role = x.RolesId,
+                    IsActive = x.IsActive,
+                })
+                .FirstOrDefaultAsync();
+
+            return user;
+        }
     }
 }

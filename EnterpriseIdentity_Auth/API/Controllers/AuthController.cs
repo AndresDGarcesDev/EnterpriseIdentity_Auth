@@ -3,6 +3,7 @@ using EnterpriseIdentity_Auth.Application.DTOs.Auth;
 using EnterpriseIdentity_Auth.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EnterpriseIdentity_Auth.API.Controllers
 {
@@ -82,6 +83,20 @@ namespace EnterpriseIdentity_Auth.API.Controllers
         public async Task<IActionResult> Activate(ActivateAccountDTO dto)
         {
             var result = await _authService.ActivateAccount(dto);
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> Me()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+                return Unauthorized();
+
+            var result = await _authService.GetUserDataById(int.Parse(userId));
 
             return Ok(result);
         }
