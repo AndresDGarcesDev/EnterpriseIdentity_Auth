@@ -1,0 +1,75 @@
+# Reference and Educational Use License
+
+**Project:** EnterpriseIdentity_Auth  
+**Copyright (c) 2026 Andrés Garcés. All rights reserved.**
+
+## 1. Purpose
+
+EnterpriseIdentity_Auth is a software project developed for educational, demonstrative, and portfolio reference purposes.
+
+The project is intended to demonstrate software development concepts, including .NET, ASP.NET Core, JWT authentication, SQL Server, REST APIs, and Clean Architecture.
+
+## 2. Permitted Use
+
+Subject to the terms of this license, individuals may access and review the publicly available source code for personal learning, technical evaluation, and reference purposes.
+
+Viewing the repository for educational purposes does not grant any additional rights to use, reproduce, modify, distribute, or incorporate the source code into other projects.
+
+## 3. Restrictions
+
+Unless prior written permission is obtained from the copyright holder, you may not:
+
+- Use the source code, in whole or in substantial part, in commercial or enterprise applications, products, or services.
+- Copy, redistribute, sublicense, publish, or otherwise distribute the source code or modified versions of it.
+- Modify, adapt, or create derivative works for redistribution or use in other projects.
+- Incorporate the source code into proprietary software, commercial platforms, or production systems.
+- Represent the project or its source code as your own original work.
+- Remove or alter copyright notices or other ownership notices.
+
+## 4. Additional Permissions
+
+Any use beyond the permissions expressly granted in this license requires prior written authorization from the copyright holder.
+
+Permission requests should describe the intended use, including whether the proposed use is personal, educational, commercial, or enterprise-related.
+
+Authorization may be granted or denied at the copyright holder's discretion and may be subject to additional conditions.
+
+## 5. Intellectual Property
+
+All rights, title, and interest in the project and its original source code remain with the respective copyright holder or other applicable rights holders.
+
+Public availability of the repository does not constitute a transfer of ownership or an unrestricted license to use the source code.
+
+Third-party components, libraries, and dependencies remain subject to their respective licenses and terms.
+
+## 6. No Warranty
+
+The project is provided "AS IS", without warranties of any kind, express or implied, including, but not limited to, warranties of merchantability, fitness for a particular purpose, security, or non-infringement.
+
+The project is provided for reference and educational purposes and is not represented as a production-ready or enterprise-certified authentication solution.
+
+The copyright holder shall not be liable for claims, damages, or other liabilities arising from the use of the project, to the extent permitted by applicable law.
+
+## 7. Security and Production Use
+
+This project has not necessarily undergone an independent security audit or formal compliance assessment.
+
+It must not be considered a certified identity management solution or a guarantee of security for production environments.
+
+Any evaluation or implementation based on the project must account for the applicable security, operational, and legal requirements.
+
+## 8. Contact and Authorization
+
+For permission requests or questions regarding the use of this project, contact the copyright holder through the contact information available on the author's GitHub profile.
+
+**Repository:** https://github.com/AndresDGarcesDev/EnterpriseIdentity_Auth
+
+## 9. License Changes
+
+The copyright holder reserves the right to update or replace this license for future distributions of the project.
+
+Such changes do not automatically revoke permissions previously granted under a separate written agreement, subject to its terms and applicable law.
+
+---
+
+**Unless expressly authorized in writing, the project is provided for reference and educational purposes only. Commercial, enterprise, redistribution, and derivative-work uses are not permitted under this license.**
