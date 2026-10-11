@@ -1,0 +1,45 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+**/publish/
+TestResults/
+
+# IDE and local settings
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+**/secrets.json
+
+# Database backups and local database files
+*.bak
+*.mdf
+*.ldf
+
+# Logs
+*.log
+logs/
+
+# Documentation and local-only files
+README.md
+LICENCE
+LICENSE
+docs/
+
+# Node.js, if present
+node_modules/
+
+# Docker
+docker-compose.override.yml
