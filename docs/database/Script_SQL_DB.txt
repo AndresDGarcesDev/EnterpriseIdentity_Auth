@@ -1,0 +1,66 @@
+CREATE DATABASE Portf_ADGARCA_AuthEnterprise
+GO
+
+USE Portf_ADGARCA_AuthEnterprise
+GO
+
+CREATE TABLE Roles(
+	[Id] int IDENTITY(1,1) NOT NULL,
+	[Name] nvarchar(50) NOT NULL,
+	[Description] nvarchar(500) NULL,
+
+	PRIMARY KEY (Id)
+);
+
+GO
+
+CREATE TABLE Users(
+	[Id] int IDENTITY(1,1) NOT NULL,
+	[Name] nvarchar(100) NOT NULL,
+	[LastName] nvarchar(100) NOT NULL,
+	[Username] nvarchar(50) NULL,
+	[Email] nvarchar(150) NOT NULL UNIQUE,
+	[PasswordHash] nvarchar(255) NULL,
+	[RolesId] int NOT NULL,
+	[IsActive] bit NOT NULL,
+	[HasPassword] bit NOT NULL,
+	[CreatedAt] datetime2 NOT NULL,
+	[UpdatedAt] datetime2 NULL,
+
+	PRIMARY KEY (Id),
+	FOREIGN KEY (RolesId) REFERENCES Roles(Id)
+);
+
+GO
+
+CREATE TABLE RefreshTokens(
+	[Id] int IDENTITY(1,1) NOT NULL,
+	[UserId] int NOT NULL,
+	[Token] nvarchar(200) NOT NULL,
+	[Expires] datetime2(7) NOT NULL,
+	[Created] datetime2(7) NOT NULL,
+	[CreatedByIp] nvarchar(100) NOT NULL,
+	[Revoked] datetime2(7) NULL,
+	[RevokedByIp] nvarchar(100) NULL,
+	[ReplacedByToken] nvarchar(200) NULL,
+	[DeviceType] nvarchar(50) NULL,
+	[Browser] nvarchar(100) NULL,
+	[OperatingSystem] nvarchar(100) NULL,
+	[UserAgent] nvarchar(max) NULL,
+	[LastActivity] datetime NULL,
+	[SessionId] uniqueidentifier NULL,
+
+	PRIMARY KEY (Id),
+	FOREIGN KEY (UserId) REFERENCES Users(Id)
+);
+
+GO
+
+INSERT INTO Roles(Name, Description)
+VALUES 
+('SA', 'Super Administrator'),
+('ADMIN', 'Administrator'),
+('OBS', 'Observer'),
+('UD', 'User Default');
+
+GO

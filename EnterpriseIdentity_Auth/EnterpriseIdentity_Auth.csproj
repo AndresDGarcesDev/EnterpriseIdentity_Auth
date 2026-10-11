@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Infraestructure\Data\" />
+    <Folder Include="Documents\" />
   </ItemGroup>
 
 </Project>
